@@ -1,0 +1,40 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": ["config:recommended", "helpers:pinGitHubActionDigests"],
+  "timezone": "Europe/Berlin",
+  "schedule": ["before 6am on monday"],
+  "semanticCommits": "enabled",
+  "labels": ["dependencies"],
+  "lockFileMaintenance": { "enabled": false },
+  "packageRules": [
+    {
+      "description": "One weekly PR for routine updates. Majors stay separate: they are the ones that break.",
+      "matchUpdateTypes": ["minor", "patch", "digest", "pin", "pinDigest"],
+      "groupName": "weekly dependencies"
+    },
+    {
+      "description": "Patch and digest updates merge themselves once CI passes; minor and major wait for a human.",
+      "matchUpdateTypes": ["patch", "digest", "pin", "pinDigest"],
+      "automerge": true
+    },
+    {
+      "description": "Upstream mcp-ynab is the whole tool surface and it can edit the budget, so its releases get their own PR and always wait for a human, patch included. CI's tool test checks every upstream tool is still served.",
+      "matchPackageNames": ["mcp-ynab"],
+      "groupName": null,
+      "automerge": false,
+      "semanticCommitType": "build",
+      "semanticCommitScope": "upstream"
+    },
+    {
+      "description": "Pin Dockerfile images by digest, so a rebuild cannot silently pull different layers.",
+      "matchManagers": ["dockerfile"],
+      "pinDigests": true
+    },
+    {
+      "description": "Only patch releases and digest updates of Python 3.13. A Python version bump is a deliberate change, not a weekly update.",
+      "matchDatasources": ["docker"],
+      "matchPackageNames": ["python"],
+      "allowedVersions": "/^3\\.13(\\.\\d+)?-slim$/"
+    }
+  ]
+}

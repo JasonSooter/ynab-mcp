@@ -1,0 +1,30 @@
+[project]
+name = "ynab-mcp"
+version = "0.1.0"
+description = "YNAB MCP server (upstream mcp-ynab) over Streamable HTTP with a password + TOTP OAuth login"
+readme = "README.md"
+authors = [
+    { name = "functionalStoic", email = "7215306+functionalStoic@users.noreply.github.com" }
+]
+license = "AGPL-3.0-only"
+requires-python = ">=3.13"
+dependencies = [
+    "mcp-ynab==1.1.0",
+    "uvicorn>=0.34",
+]
+
+[project.scripts]
+ynab-mcp = "ynab_mcp.__main__:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[dependency-groups]
+dev = [
+    "httpx>=0.28",
+    "pytest>=8.0",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

@@ -1,0 +1,11 @@
+# Secrets -- never commit.
+secrets.env
+
+# Runtime data, bind-mounted into the container.
+data/
+
+# Python
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/

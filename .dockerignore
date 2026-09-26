@@ -1,0 +1,8 @@
+# Runtime data and secrets are bind-mounted or passed at run time, never baked in.
+data/
+secrets.env
+
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
