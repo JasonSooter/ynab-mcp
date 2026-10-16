@@ -1,4 +1,29 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": ["local>JasonSooter/renovate-config"]
+  "extends": ["local>JasonSooter/renovate-config"],
+  "labels": ["dependencies"],
+  "lockFileMaintenance": {
+    "enabled": false
+  },
+  "packageRules": [
+    {
+      "description": "Patch and digest updates merge themselves once CI passes; minor and major wait for a human.",
+      "matchUpdateTypes": ["patch", "digest", "pin", "pinDigest"],
+      "automerge": true
+    },
+    {
+      "description": "Upstream mcp-ynab is the whole tool surface and it can edit the budget, so its releases get their own PR and always wait for a human, patch included. CI's tool test checks every upstream tool is still served.",
+      "matchPackageNames": ["mcp-ynab"],
+      "groupName": null,
+      "automerge": false,
+      "semanticCommitType": "build",
+      "semanticCommitScope": "upstream"
+    },
+    {
+      "description": "Only patch releases and digest updates of Python 3.13. A Python version bump is a deliberate change, not a weekly update.",
+      "matchDatasources": ["docker"],
+      "matchPackageNames": ["python"],
+      "allowedVersions": "/^3\\.13(\\.\\d+)?-slim$/"
+    }
+  ]
 }
